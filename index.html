@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+</head>
+<style>
+    html{
+        background-color: blueviolet;
+        color: white;
+    }
+    body{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+         min-height: 100vh;
+
+    }
+    .container{
+        width: 1000px;
+        background-color: rgb(0, 0, 0);
+        display: flex;
+        padding: 60px 40px;
+        border-radius: 10px;
+        align-items: flex-end;
+        gap: 70px;
+        height: 400px;
+        margin-right: 10px;
+       justify-content: center;
+    }
+    .hangman img{
+        max-width: 250px;
+        position: absolute;
+        top: 320px;
+        left: 540px;
+
+    }
+    .hangman h1{
+        font-size: 1.45rem;
+        margin-top: 20px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    .word-display{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        margin-left: -70px;
+
+    }
+    .word-display .letter{
+        width: 20px;
+        border-radius: 3px solid black;
+        font-size: 2rem;
+        margin-left: 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        text-align: center;
+
+    }
+    .word-display .letter .guessed{
+        border-color: transparent;
+        margin: -40px 0 35px;
+    }
+    .game-box h4{
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 15px;
+
+
+    }
+    .game-box h4 b{
+        font-weight: 600;
+    }
+    .game-box .guesses-box b{
+        color: red;
+    } 
+    .game-box .button{
+        
+        gap: 5px;
+
+        justify-content: center;
+        margin-top: 40px;
+
+    }
+    .button button{
+        width: calc (100% / 9 - 5px);
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform:uppercase ;
+        background-color: blueviolet;
+        cursor: pointer;
+        outline: none;
+        color: white;
+        padding: 7px;
+        border: none;
+
+    }
+    .button button:hover {
+        background-color: blueviolet;
+
+
+    }
+    .one button{
+        margin-right: 10px;
+        padding: 10px 15px;
+        width: 50px;
+        height: 50px;
+    }
+    .two button{
+        margin-right: 10px;
+        padding: 10px 15px;
+        width: 50px;
+        height: 50px;
+        margin-top: 10px;
+    }
+    .three button{
+        margin-right: 10px;
+        padding: 10px 15px;
+        width: 50px;
+        height: 50px;
+        margin-top: 10px;
+    }
+    .three{
+        margin-left: 30px;
+    }
+    .game-model{
+        position: fixed;
+        left: 39%;
+        top: 30%;
+        right: 0;
+        background-color:rgba(0, 0,0,0);
+        width: 100%;
+        height: 100%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+    .game-model img{
+       max-width:130px;
+       margin-bottom: 20px;
+    }
+    .game-model .content{
+        background-color:white;
+        max-width: 420px;
+        width: 100%;
+        text-align: center;
+        padding: 30px;
+        border-radius: 10px;
+        color: black;
+    }
+    .game-model h4{
+        color: black;
+        font-size: 1.53rem;
+    }
+    .game-model p{
+        font-size: 1.15rem;
+        margin: 15px 0 30px;
+        font-weight: 500;
+
+    }
+    .game-model p b{
+        color: blueviolet;
+        font-weight: 600;
+    }
+    .game-model button{
+        padding: 12px 23px;
+        color: blueviolet;
+        
+    }
+    
+
+</style>
+<body>
+    <div class="game-model" id = "sad">
+        <div class="content">
+            <img src="image/sad.gif" alt="sad" >
+            <h4>Game over</h4>
+            <p>The correct word was: <b>Diamond</b></p>
+            
+            <button type="submit" onClick="refreshPage()" class="play-again">Play again</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="hangman">
+            <img src="image/hangman0.png" alt="hangman-img">
+            <img src="image/hangman1.png" id="level_1" style="display: none;">
+            <img src="image/hangman2.png" id="level_2"style="display: none;">
+            <img src="image/hangman3.png" id="level_3"style="display: none;">
+            <img src="image/hangman4.png" id="level_4"style="display: none;">
+            <img src="image/hangman5.png" id="level_5"style="display: none;">
+            <img src="image/hangman6.png" id="level_6"style="display: none;">
+            
+            <h1>HANGMAN GAME</h1>
+        </div>
+        <div class="game-box">
+
+            <ul class="word-display">
+                <div class="letter" id="letter_d">__</div>
+                <div class="letter" id="letter_i">__</div>
+                <div class="letter" id="letter_a">__</div>
+                <div class="letter" id="letter_m">__</div>
+                <div class="letter" id="letter_o">__</div>
+                <div class="letter" id="letter_n">__</div>
+                <div class="letter" id="letter_d1">__</div>
+                
+            </ul>
+        
+        
+            <h4 class="hint-text">
+                Hint:
+                <b>colorful light display in sky during rain</b>
+            </h4>
+            <h4 class="guesses-box">
+                Incorrect guesses
+                <b><span id="num">0</span>/6</b>
+                </h4>
+               
+        <div class=" keyword button">
+            <div class="one">
+                <button onclick="letter_a()">a</button ><button onclick="wrong()" >b</button><button onclick="wrong()">c</button><button onclick="letter_d()">d</button>
+                <button onclick="wrong()">e</button><button onclick="wrong()">f</button><button onclick="wrong()">g</button><button onclick="wrong()">h</button>
+                <button onclick="letter_i()">i</button>
+            </div>
+            <div class="two">
+                <button onclick="wrong()">j</button><button onclick="wrong()">k</button><button onclick="wrong()">l</button>
+                <button onclick="letter_m()">m</button><button onclick="letter_n()">n</button ><button onclick="letter_o()">o</button><button onclick="wrong()">p</button>
+                <button onclick="wrong()">q</button><button onclick="wrong()">r</button>
+            </div>
+            <div class="three">
+                <button onclick="wrong()">s</button><button onclick="wrong()">t</button>
+                <button onclick="wrong()">u</button><button onclick="wrong()">v</button><button onclick="wrong()">w</button><button onclick="wrong()">x</button>
+                <button onclick="wrong()">y</button><button onclick="wrong()">z</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="scripts/word-list.js" defer></script>
+    <script src="scripts/script.js" defer></script>
+</body>
+</html>
